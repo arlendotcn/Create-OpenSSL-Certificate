@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Preparation:
+rootPath="./"
+confFilePathSuffix=".cnf"
+
+echo "####################################"
+echo "Generating OpenSSL cretatioins."
+echo "####################################"
+read -p "Input the domain name[eg: leapond.com]:" domain
+
+if [ "x$domain" = "x" ]
+then
+  echo "No domain name input, terminated!"
+  exit 0
+fi
+
+confFile=$domain$confFilePathSuffix
+if [ ! -e $confFile ] ; then
+  echo "Configuration file not existed: $confFile"
+  exit
+else
+  echo "Read configuration successfully: $confFile"
+  echo "CRT: $domain.crt"
+  if [ -e $domain.crt ] ; then
+    echo ""
+    echo "The credential \"$domain.crt\" already existed!"
+    while read -p "Overwrite it? (y/n):" overwrite
+      do
+        case $overwrite in
+          Y|y)
+            echo -e "Forced to overwrite the exited creddential."
+            break;
+            break;
+          ;;
+          N|n)
+            echo -e "Skipped to overwrite exited creddential."
+            exit 0
+          ;;
+          *)
+            #echo -e "Wrong input!"
+            continue
+        esac
+    done
+  fi
+fi
+openssl genrsa -out $domain.key 2048
+openssl req -new -out $domain.csr -key $domain.key -config $confFile
+# CA sign
+openssl ca -batch -config $confFile -notext -in $domain.csr -out $domain.crt -extensions v3_req -extfile $confFile
+
+# Selfsign
+#openssl x509 -req -days 3650 -in $domain.csr -signkey $domain.key -out $domain.crt -extensions v3_req -extfile $confFile

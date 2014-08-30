@@ -1,0 +1,58 @@
+#!/bin/bash
+# Preparation:
+rootPath="./"
+confFile="leapond.ca.cnf"
+output="CA/leapondCA"
+ext="crt"
+
+echo "####################################"
+echo "Generating OpenSSL Root CA."
+echo "####################################"
+
+if ! [ -e $confFile ] ; then
+  echo ""
+  echo "The Root CA config file not existed!"
+  while read -p "Continue without config file? (y/n):" overwrite
+    do
+      case $overwrite in
+        Y|y|yes)
+          echo ""
+          echo -e "Start generating without config file."
+          break;
+          break;
+        ;;
+        N|n|no)
+          echo ""
+          echo -e "Skipped for missed config file."
+          exit 0
+        ;;
+        *)
+          #echo -e "Wrong input!"
+          continue
+      esac
+  done
+fi
+
+if [ -e $output.$ext ] ; then
+  echo "The Root CA file ($output.$ext) already existed!"
+  while read -p "Overwrite existed CA file? (y/n):" overwrite
+    do
+      case $overwrite in
+        Y|y)
+          echo -e "Forced to overwrite the exited Root CA."
+          break;
+          break;
+        ;;
+        N|n)
+          echo -e "Skipped to overwrite exited Root CA."
+          exit 0
+        ;;
+        *)
+          #echo -e "Wrong input!"
+          continue
+      esac
+  done
+fi
+openssl genrsa -out $output.key 4096 -des3
+# Self sign
+openssl req -x509 -new -nodes -key $output.key -days 1024 -out $output.$ext -config $confFile
