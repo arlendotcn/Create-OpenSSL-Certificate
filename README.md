@@ -8,6 +8,6 @@ With these shell script and OpenSSL, you can create your own self-signed CA and 
 4. Run *ar_client* to generate the certificate signed with the CA.
 5. Add the CA to OS trusted certificate pool, and it will makes all your client certificate be work and avoid any block/warning.
 
-## Author && Contact
+## Author & Contact
 * Website: http://arlen.cn/
 * Email: dev@arlen.cn
