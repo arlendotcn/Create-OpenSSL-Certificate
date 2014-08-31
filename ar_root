@@ -1,7 +1,7 @@
 #!/bin/bash
 # Preparation:
 rootPath="./"
-confFile="leapond.ca.cnf"
+confFile="conf.d/leapond.ca.cnf"
 outPath="CA/"
 outFile="leapondCA"
 outExt=".crt"
@@ -62,4 +62,4 @@ if [ -e $outPath$outFile$outExt ] ; then
 fi
 openssl genrsa -out $outPath$outFile.key 4096 -des3
 # Self sign
-openssl req -x509 -new -nodes -key $outPath$outFile.key -days 1024 -out $outPath$outFile$outExt -config $confFile $@
+openssl req -x509 -new -nodes -key $outPath$outFile.key -days 3653 -out $outPath$outFile$outExt -config $confFile $@

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Preparation:
-confFilePathSuffix=".cnf"
 rootPath="./"
-confFile="leapond.ca.cnf"
+confPath="conf.d/"
+confSuf=".cnf"
 outPath="CA/"
 outFile="leapondCA"
 outExt=".crt"
@@ -32,7 +32,7 @@ then
   exit 0
 fi
 
-confFile=$domain$confFilePathSuffix
+confFile=$confPath$domain$confSuf
 if [ ! -e $confFile ] ; then
   echo "Configuration file not existed: $confFile"
   exit
