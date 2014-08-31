@@ -2,12 +2,19 @@
 # Preparation:
 rootPath="./"
 confFile="leapond.ca.cnf"
-output="CA/leapondCA"
-ext="crt"
+outPath="CA/"
+outFile="leapondCA"
+outExt=".crt"
 
 echo "####################################"
 echo "Generating OpenSSL Root CA."
 echo "####################################"
+
+if ! [ -e $outPath ] ; then
+  mkdir $outPath"tmp" -p
+  echo ""
+  echo "The output directory not existed, auto created."
+fi
 
 if ! [ -e $confFile ] ; then
   echo ""
@@ -33,8 +40,8 @@ if ! [ -e $confFile ] ; then
   done
 fi
 
-if [ -e $output.$ext ] ; then
-  echo "The Root CA file ($output.$ext) already existed!"
+if [ -e $outPath$outFile$outExt ] ; then
+  echo "The Root CA file ($outPath$outFile$outExt) already existed!"
   while read -p "Overwrite existed CA file? (y/n):" overwrite
     do
       case $overwrite in
@@ -53,6 +60,6 @@ if [ -e $output.$ext ] ; then
       esac
   done
 fi
-openssl genrsa -out $output.key 4096 -des3
+openssl genrsa -out $outPath$outFile.key 4096 -des3
 # Self sign
-openssl req -x509 -new -nodes -key $output.key -days 1024 -out $output.$ext -config $confFile
+openssl req -x509 -new -nodes -key $outPath$outFile.key -days 1024 -out $outPath$outFile$outExt -config $confFile $@
