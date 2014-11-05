@@ -39,7 +39,8 @@ default_ca	= CA_default		# The default ca section
 ####################################################################
 [ CA_default ]
 
-dir		= /usr/share/wwwconf/certs		# Where everything is kept
+#dir		= /usr/share/wwwconf/certs		# Where everything is kept
+dir		= .		# Where everything is kept
 certs		= $dir		# Where the issued certs are kept
 crl_dir		= $dir/CA/crl		# Where the issued crl are kept
 database	= $dir/CA/index.txt	# database index file.
@@ -47,12 +48,14 @@ database	= $dir/CA/index.txt	# database index file.
 					# several ctificates with same subject.
 new_certs_dir	= $dir/CA/tmp		# default place for new certs.
 
-certificate	= $dir/CA/leapondCA.crt 	# The CA certificate
+#certificate	= $dir/CA/leapondCA.crt 	# The CA certificate
+certificate	= $dir/output/leapondCA.crt 	# The CA certificate
 serial		= $dir/CA/serial 		# The current serial number
 crlnumber	= $dir/CA/crlnumber	# the current crl number
 					# must be commented out to leave a V1 CRL
 crl		= $dir/CA/crl.pem 		# The current CRL
-private_key	= $dir/CA/leapondCA.key# The private key
+#private_key	= $dir/CA/leapondCA.key# The private key
+private_key	= $dir/output/leapondCA.key# The private key
 RANDFILE	= $dir/CA/.rand	# private random number file
 
 x509_extensions	= usr_cert		# The extentions to add to the cert
@@ -395,6 +398,8 @@ DNS.1 = arlen.cn
 DNS.2 = www.arlen.cn
 DNS.3 = static.arlen.cn
 DNS.4 = localhost
+DNS.5 = w.ar.cn
+DNS.6 = l.vm
 IP.1 = 42.96.160.118
-IP.2 = 192.168.137.140
+IP.2 = 192.168.1.2
 IP.3 = 127.0.0.1
