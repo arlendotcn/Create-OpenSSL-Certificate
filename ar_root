@@ -2,7 +2,8 @@
 # Preparation:
 rootPath="./"
 confFile="conf.d/leapond.ca.cnf"
-outPath="CA/"
+tmpPath="CA/"
+outPath="output/"
 outFile="leapondCA"
 outExt=".crt"
 
@@ -10,8 +11,8 @@ echo "####################################"
 echo "Generating OpenSSL Root CA."
 echo "####################################"
 
-if ! [ -e $outPath ] ; then
-  mkdir $outPath"tmp" -p
+if ! [ -e $tmpPath ] ; then
+  mkdir $tmpPath"tmp" -p
   echo ""
   echo "The output directory not existed, auto created."
 fi
