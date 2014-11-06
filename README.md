@@ -11,4 +11,4 @@ With these shell script and OpenSSL, you can create your own self-signed CA and 
 
 ## Author & Contact
 * Website: http://arlen.cn/
-* Email: dev@arlen.cn
+* Email: dev#arlen.cn
