@@ -87,9 +87,16 @@ openssl genrsa -out $outPath$domain.key 2048
 openssl req -new -out $outPath$domain.csr -key $outPath$domain.key -config $confFile $@
 # CA sign
 openssl ca -batch -config $confFile -notext -cert $outPath$outFile$outExt -in $outPath$domain.csr -out $outPath$domain.crt -extensions v3_req -extfile $confFile
+# PEM
+#openssl rsa -inform DER -outform PEM -in server.crt -out server.crt.pem
+#openssl x509 -inform DER -outform PEM -in server.crt -out server.crt.pem
+#openssl x509 -inform DER -outform PEM -in $outPath$domain.csr -out $outPath$domain.pem
 
 # Selfsign
 #openssl x509 -req -days 3650 -in $domain.csr -signkey $domain.key -out $domain.crt -extensions v3_req -extfile $confFile
+# PEM
+cat $outPath$outFile$outExt $outPath$outFile.key > $outPath$domain.pem
+
 # Clean
 if $defaultCnfUsed ; then
   rm -f $confPath$domain$confSuf
