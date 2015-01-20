@@ -43,7 +43,7 @@ if [ ! -e $confFile ] ; then
       case $useDefault in
         Y|y)
           echo -e "Used the default domain configuration file."
-          sed "s/%DOMAIN%/$domain/g" $confPath"cnf.default" > "$confPath$domain$confSuf"
+          sed "s/%DOMAIN%/$domain/g" "$defaultCnf" > "$confPath$domain$confSuf"
           defaultCnfUsed=true
           break;
           break;
@@ -82,10 +82,6 @@ if [ -e $domain.crt ] ; then
       esac
   done
 fi
-# Clean
-if $defaultCnfUsed ; then
-  rm -f $confPath$domain$confSuf
-fi
 # Gen
 openssl genrsa -out $outPath$domain.key 2048
 openssl req -new -out $outPath$domain.csr -key $outPath$domain.key -config $confFile $@
@@ -94,3 +90,7 @@ openssl ca -batch -config $confFile -notext -cert $outPath$outFile$outExt -in $o
 
 # Selfsign
 #openssl x509 -req -days 3650 -in $domain.csr -signkey $domain.key -out $domain.crt -extensions v3_req -extfile $confFile
+# Clean
+if $defaultCnfUsed ; then
+  rm -f $confPath$domain$confSuf
+fi
